@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transacto × OctoPro — IT-разработка под ключ</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --w:#ffffff;--b:#060914;--b2:#0c1120;--b3:#111827;
+  --ac:#3b6eff;--ac2:#6c8fff;--gr:#10b981;
+  --mu:#6b7280;--mu2:#374151;--brd:rgba(255,255,255,0.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--b);color:var(--w);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.5}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:100;padding:16px 60px;display:flex;justify-content:space-between;align-items:center;background:rgba(6,9,20,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd)}
+.nav-logo{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;letter-spacing:-0.5px;color:var(--w)}
+.nav-logo span{color:var(--ac)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;color:var(--mu);text-decoration:none;transition:color .2s;cursor:pointer}
+.nav-links a:hover{color:var(--w)}
+.nav-right{display:flex;align-items:center;gap:12px}
+
+/* LANG SWITCHER */
+.lang-sw{display:flex;background:var(--b2);border:1px solid var(--brd);border-radius:6px;overflow:hidden}
+.lang-btn{padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--mu);font-family:'Space Grotesk',sans-serif;transition:all .15s;letter-spacing:0.5px}
+.lang-btn.on{background:var(--ac);color:#fff}
+
+.nav-cta{background:var(--ac);color:white;border:none;padding:9px 22px;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:#2952cc;transform:translateY(-1px)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:120px 60px 80px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(59,110,255,0.12) 0%,transparent 65%);top:-200px;right:-200px;pointer-events:none}
+.hero-glow2{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,0.06) 0%,transparent 65%);bottom:-100px;left:200px;pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(59,110,255,0.1);border:1px solid rgba(59,110,255,0.25);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:32px}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ac);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-size:clamp(46px,6vw,86px);font-weight:700;line-height:1.0;letter-spacing:-2px;margin-bottom:28px;max-width:800px}
+.hero h1 em{font-style:normal;color:var(--ac)}
+.hero-sub{font-size:18px;color:var(--mu);line-height:1.7;max-width:560px;margin-bottom:48px;font-weight:400}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-main{background:var(--ac);color:white;border:none;padding:15px 34px;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .3s;display:inline-block}
+.btn-main:hover{background:#2952cc;transform:translateY(-2px);box-shadow:0 12px 40px rgba(59,110,255,0.4)}
+.btn-sec{background:transparent;color:white;border:1px solid rgba(255,255,255,0.15);padding:15px 34px;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-block}
+.btn-sec:hover{border-color:var(--ac);color:var(--ac)}
+.hero-stats{display:flex;gap:48px;margin-top:72px;padding-top:40px;border-top:1px solid var(--brd);flex-wrap:wrap}
+.hstat-num{font-family:'Space Mono',monospace;font-size:38px;font-weight:700;color:var(--w);letter-spacing:-1px}
+.hstat-num span{color:var(--ac)}
+.hstat-label{font-size:13px;color:var(--mu);margin-top:4px}
+
+/* STRIP */
+.strip{background:var(--b2);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);padding:18px 60px;display:flex;align-items:center;gap:40px;overflow:hidden}
+.strip-label{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:2px;flex-shrink:0}
+.strip-items{display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+.strip-item{font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);white-space:nowrap}
+.strip-dot{width:4px;height:4px;border-radius:50%;background:var(--mu2);flex-shrink:0}
+
+/* SECTION */
+section{padding:90px 60px;position:relative;z-index:1}
+.section-tag{font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px}
+.section-title{font-size:clamp(30px,4vw,50px);font-weight:700;letter-spacing:-1.5px;line-height:1.1;margin-bottom:16px}
+.section-title em{font-style:normal;color:var(--ac)}
+.section-sub{font-size:16px;color:var(--mu);line-height:1.7;max-width:540px}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--brd);border:1px solid var(--brd);border-radius:12px;overflow:hidden;margin-top:56px}
+.srv{background:var(--b2);padding:36px;transition:background .2s;position:relative;overflow:hidden;cursor:default}
+.srv::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),transparent);opacity:0;transition:opacity .2s}
+.srv:hover{background:var(--b3)}
+.srv:hover::before{opacity:1}
+.srv-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--mu);font-weight:700;letter-spacing:1px;margin-bottom:20px}
+.srv-icon{font-size:28px;margin-bottom:16px}
+.srv-title{font-size:19px;font-weight:700;margin-bottom:10px;letter-spacing:-0.3px}
+.srv-desc{font-size:14px;color:var(--mu);line-height:1.7}
+.srv-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.srv-tag{font-size:11px;font-weight:600;color:var(--ac2);background:rgba(59,110,255,0.08);border:1px solid rgba(59,110,255,0.15);border-radius:4px;padding:3px 8px}
+
+/* FEATURED P2P */
+.featured{background:linear-gradient(135deg,var(--b2),rgba(59,110,255,0.05));border:1px solid rgba(59,110,255,0.15);border-radius:16px;padding:56px;margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.feat-tag{display:inline-block;background:rgba(59,110,255,0.1);border:1px solid rgba(59,110,255,0.25);border-radius:4px;padding:4px 12px;font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:18px}
+.feat-title{font-size:36px;font-weight:700;letter-spacing:-1px;line-height:1.1;margin-bottom:14px}
+.feat-desc{font-size:15px;color:var(--mu);line-height:1.7;margin-bottom:28px}
+.feat-items{display:flex;flex-direction:column;gap:10px}
+.feat-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--brd);border-radius:8px}
+.feat-item-icon{width:26px;height:26px;border-radius:6px;background:rgba(59,110,255,0.15);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.feat-item-text{font-size:14px;font-weight:500;padding-top:3px}
+.feat-price{background:var(--b3);border:1px solid var(--brd);border-radius:12px;padding:28px}
+.feat-price-title{font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--brd)}
+.price-row:last-of-type{border-bottom:none}
+.price-label{font-size:14px;color:var(--mu)}
+.price-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--w)}
+.price-val.ac{color:var(--ac)}
+.feat-cta{background:var(--ac);color:white;border:none;width:100%;padding:13px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:20px;transition:all .2s;text-align:center;display:block;text-decoration:none}
+.feat-cta:hover{background:#2952cc;transform:translateY(-1px)}
+
+/* OCTO */
+.octo{background:var(--b2);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);padding:80px 60px}
+.octo-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.octo-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:6px;padding:7px 14px;margin-bottom:20px}
+.octo-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--gr)}
+.octo-badge-text{font-size:12px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:1px}
+.octo-title{font-size:38px;font-weight:700;letter-spacing:-1px;line-height:1.1;margin-bottom:14px}
+.octo-desc{font-size:15px;color:var(--mu);line-height:1.7;margin-bottom:28px}
+.octo-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.octo-stat{background:rgba(255,255,255,0.03);border:1px solid var(--brd);border-radius:10px;padding:18px}
+.octo-stat-num{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--gr);margin-bottom:4px}
+.octo-stat-label{font-size:13px;color:var(--mu)}
+.octo-right{display:flex;flex-direction:column;gap:12px}
+.octo-item{background:rgba(255,255,255,0.02);border:1px solid var(--brd);border-radius:10px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;transition:border-color .2s}
+.octo-item:hover{border-color:rgba(16,185,129,0.2)}
+.octo-item-icon{width:34px;height:34px;border-radius:8px;background:rgba(16,185,129,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.octo-item-title{font-size:14px;font-weight:700;margin-bottom:3px}
+.octo-item-desc{font-size:13px;color:var(--mu);line-height:1.5}
+
+/* PROCESS */
+.process-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:56px;position:relative}
+.process-grid::before{content:'';position:absolute;top:27px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--brd),var(--brd),transparent)}
+.proc-step{text-align:center;padding:0 14px}
+.proc-num{width:54px;height:54px;border-radius:50%;background:var(--b2);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--ac);margin:0 auto 18px;position:relative;z-index:1}
+.proc-title{font-size:14px;font-weight:700;margin-bottom:7px}
+.proc-desc{font-size:12px;color:var(--mu);line-height:1.5}
+
+/* IGAMING */
+.igaming{background:linear-gradient(135deg,rgba(16,185,129,0.05),transparent);border:1px solid rgba(16,185,129,0.1);border-radius:16px;padding:56px;margin:0 60px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.ig-tag{display:inline-block;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);border-radius:4px;padding:4px 12px;font-size:11px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:18px}
+.ig-title{font-size:36px;font-weight:700;letter-spacing:-1px;line-height:1.1;margin-bottom:14px}
+.ig-desc{font-size:15px;color:var(--mu);line-height:1.7;margin-bottom:28px}
+.ig-years{display:inline-flex;align-items:center;gap:16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);border-radius:10px;padding:18px 24px}
+.ig-years-num{font-family:'Space Mono',monospace;font-size:44px;font-weight:700;color:var(--gr);line-height:1}
+.ig-years-text{font-size:13px;color:var(--mu);line-height:1.4}
+.ig-list{display:flex;flex-direction:column;gap:10px}
+.ig-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--brd);border-radius:8px;font-size:14px;font-weight:500}
+.ig-item::before{content:'✓';color:var(--gr);font-weight:700;font-size:14px;flex-shrink:0}
+
+/* CTA */
+.cta-section{padding:90px 60px;text-align:center;position:relative;overflow:hidden}
+.cta-glow{position:absolute;width:800px;height:400px;border-radius:50%;background:radial-gradient(ellipse,rgba(59,110,255,0.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.cta-section h2{font-size:clamp(34px,5vw,62px);font-weight:700;letter-spacing:-2px;line-height:1.1;margin-bottom:18px}
+.cta-section p{font-size:17px;color:var(--mu);margin-bottom:40px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.6}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.cta-contact{background:var(--b2);border:1px solid var(--brd);border-radius:10px;padding:22px 28px;display:flex;justify-content:center;gap:56px;flex-wrap:wrap;margin-top:40px;max-width:560px;margin-left:auto;margin-right:auto}
+.contact-item{text-align:center}
+.contact-label{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.contact-val{font-size:15px;font-weight:700;color:var(--ac)}
+
+/* FOOTER */
+footer{padding:28px 60px;border-top:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.footer-logo{font-family:'Space Mono',monospace;font-size:14px;font-weight:700}
+.footer-logo span{color:var(--ac)}
+.footer-text{font-size:13px;color:var(--mu)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:all .7s cubic-bezier(0.16,1,0.3,1)}
+.reveal.on{opacity:1;transform:translateY(0)}
+
+@media(max-width:900px){
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+  .hero,.octo,section{padding-left:20px;padding-right:20px}
+  .hero{padding-top:100px}
+  .hero h1{font-size:38px}
+  .hero-stats{gap:20px}
+  .services-grid{grid-template-columns:1fr}
+  .featured,.octo-inner,.igaming{grid-template-columns:1fr;gap:28px}
+  .igaming{margin:0 20px}
+  .process-grid{grid-template-columns:1fr 1fr;gap:20px}
+  .process-grid::before{display:none}
+  .strip{padding:14px 20px}
+  .cta-section{padding:60px 20px}
+  footer{padding:20px}
+  .cta-contact{gap:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Transacto <span>×</span> OctoPro</div>
+  <div class="nav-links">
+    <a onclick="scrollTo('services')" data-ru="Услуги" data-en="Services">Услуги</a>
+    <a onclick="scrollTo('p2p')" data-ru="P2P" data-en="P2P">P2P</a>
+    <a onclick="scrollTo('octo')" data-ru="О нас" data-en="About">О нас</a>
+    <a onclick="scrollTo('igaming')" data-ru="iGaming" data-en="iGaming">iGaming</a>
+    <a onclick="scrollTo('contact')" data-ru="Контакты" data-en="Contacts">Контакты</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-sw">
+      <button class="lang-btn on" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="https://t.me/transacto_support" target="_blank" class="nav-cta" data-ru="Обсудить проект" data-en="Discuss project">Обсудить проект</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-tag" data-ru="20+ лет на рынке · IT & iGaming" data-en="20+ years on the market · IT & iGaming">20+ лет на рынке · IT & iGaming</div>
+  <h1 data-ru="Разработка<br><em>IT-решений</em><br>любой сложности" data-en="Development of<br><em>IT solutions</em><br>of any complexity">Разработка<br><em>IT-решений</em><br>любой сложности</h1>
+  <p class="hero-sub" data-ru="От Telegram-бота до P2P платформы с миллионами транзакций. Полный цикл разработки под ключ — от идеи до production." data-en="From a Telegram bot to a P2P platform with millions of transactions. Full development cycle turnkey — from idea to production.">От Telegram-бота до P2P платформы с миллионами транзакций. Полный цикл разработки под ключ — от идеи до production.</p>
+  <div class="hero-btns">
+    <a href="https://t.me/transacto_support" target="_blank" class="btn-main" data-ru="Обсудить проект →" data-en="Discuss project →">Обсудить проект →</a>
+    <a onclick="scrollTo('services')" class="btn-sec" data-ru="Посмотреть услуги" data-en="View services">Посмотреть услуги</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="hstat-num">20<span>+</span></div>
+      <div class="hstat-label" data-ru="лет на рынке" data-en="years on market">лет на рынке</div>
+    </div>
+    <div>
+      <div class="hstat-num">150<span>+</span></div>
+      <div class="hstat-label" data-ru="реализованных проектов" data-en="completed projects">реализованных проектов</div>
+    </div>
+    <div>
+      <div class="hstat-num">$1B<span>+</span></div>
+      <div class="hstat-label" data-ru="оборот на платформах" data-en="turnover on platforms">оборот на платформах</div>
+    </div>
+    <div>
+      <div class="hstat-num">24<span>/7</span></div>
+      <div class="hstat-label" data-ru="поддержка" data-en="support">поддержка</div>
+    </div>
+  </div>
+</div>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-label" data-ru="Технологии" data-en="Technologies">Технологии</div>
+  <div class="strip-items">
+    <div class="strip-item">Python</div><div class="strip-dot"></div>
+    <div class="strip-item">Node.js</div><div class="strip-dot"></div>
+    <div class="strip-item">React</div><div class="strip-dot"></div>
+    <div class="strip-item">PostgreSQL</div><div class="strip-dot"></div>
+    <div class="strip-item">Telegram API</div><div class="strip-dot"></div>
+    <div class="strip-item">Payment Gateway</div><div class="strip-dot"></div>
+    <div class="strip-item">USDT / Crypto</div><div class="strip-dot"></div>
+    <div class="strip-item">iGaming</div><div class="strip-dot"></div>
+    <div class="strip-item">Fintech</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="reveal">
+    <div class="section-tag" data-ru="Что мы делаем" data-en="What we do">Что мы делаем</div>
+    <div class="section-title" data-ru="Полный спектр<br><em>IT-разработки</em>" data-en="Full spectrum of<br><em>IT development</em>">Полный спектр<br><em>IT-разработки</em></div>
+    <div class="section-sub" data-ru="Берёмся за любые задачи — от простого бота до высоконагруженных финтех-платформ." data-en="We take on any task — from a simple bot to high-load fintech platforms.">Берёмся за любые задачи — от простого бота до высоконагруженных финтех-платформ.</div>
+  </div>
+  <div class="services-grid reveal">
+    <div class="srv">
+      <div class="srv-num">01</div>
+      <div class="srv-icon">🤖</div>
+      <div class="srv-title" data-ru="Telegram-боты" data-en="Telegram bots">Telegram-боты</div>
+      <div class="srv-desc" data-ru="Боты для записи клиентов, автоматизации продаж, финансового учёта и CRM-интеграций. Любая логика." data-en="Bots for client booking, sales automation, financial tracking and CRM integrations. Any logic.">Боты для записи клиентов, автоматизации продаж, финансового учёта и CRM-интеграций. Любая логика.</div>
+      <div class="srv-tags"><span class="srv-tag">aiogram</span><span class="srv-tag">python-telegram-bot</span><span class="srv-tag">PostgreSQL</span></div>
+    </div>
+    <div class="srv">
+      <div class="srv-num">02</div>
+      <div class="srv-icon">🌐</div>
+      <div class="srv-title" data-ru="Лендинги и веб" data-en="Landings & web">Лендинги и веб</div>
+      <div class="srv-desc" data-ru="Продающие страницы, корпоративные сайты, SaaS-панели, личные кабинеты. Адаптивный дизайн." data-en="Selling pages, corporate sites, SaaS panels, personal dashboards. Responsive design.">Продающие страницы, корпоративные сайты, SaaS-панели, личные кабинеты. Адаптивный дизайн.</div>
+      <div class="srv-tags"><span class="srv-tag">React</span><span class="srv-tag">Next.js</span><span class="srv-tag">HTML/CSS</span></div>
+    </div>
+    <div class="srv">
+      <div class="srv-num">03</div>
+      <div class="srv-icon">💱</div>
+      <div class="srv-title" data-ru="P2P платформы" data-en="P2P platforms">P2P платформы</div>
+      <div class="srv-desc" data-ru="Платёжные шлюзы, кабинеты трейдеров, процессинг и система диспутов. Готово к работе с первого дня." data-en="Payment gateways, trader cabinets, processing and dispute systems. Ready to operate from day one.">Платёжные шлюзы, кабинеты трейдеров, процессинг и система диспутов. Готово к работе с первого дня.</div>
+      <div class="srv-tags"><span class="srv-tag">Payment API</span><span class="srv-tag">USDT</span><span class="srv-tag">UAH</span></div>
+    </div>
+    <div class="srv">
+      <div class="srv-num">04</div>
+      <div class="srv-icon">🎮</div>
+      <div class="srv-title" data-ru="iGaming решения" data-en="iGaming solutions">iGaming решения</div>
+      <div class="srv-desc" data-ru="20+ лет опыта в игровой индустрии. Интеграции с провайдерами, платёжные решения, бэкофисы операторов." data-en="20+ years in the gaming industry. Provider integrations, payment solutions, operator back-offices.">20+ лет опыта в игровой индустрии. Интеграции с провайдерами, платёжные решения, бэкофисы операторов.</div>
+      <div class="srv-tags"><span class="srv-tag">20+ лет</span><span class="srv-tag">Лицензии</span><span class="srv-tag">Compliance</span></div>
+    </div>
+    <div class="srv">
+      <div class="srv-num">05</div>
+      <div class="srv-icon">⚙️</div>
+      <div class="srv-title" data-ru="Кастомная разработка" data-en="Custom development">Кастомная разработка</div>
+      <div class="srv-desc" data-ru="CRM, ERP, системы автоматизации, микросервисы, API-интеграции. Любая нестандартная задача." data-en="CRM, ERP, automation systems, microservices, API integrations. Any non-standard task.">CRM, ERP, системы автоматизации, микросервисы, API-интеграции. Любая нестандартная задача.</div>
+      <div class="srv-tags"><span class="srv-tag">API</span><span class="srv-tag">Микросервисы</span><span class="srv-tag">CRM</span></div>
+    </div>
+    <div class="srv">
+      <div class="srv-num">06</div>
+      <div class="srv-icon">📱</div>
+      <div class="srv-title" data-ru="Мобильные приложения" data-en="Mobile apps">Мобильные приложения</div>
+      <div class="srv-desc" data-ru="iOS и Android для бизнеса. От MVP до масштабируемого продукта с оплатой и аналитикой." data-en="iOS and Android for business. From MVP to a scalable product with payments and analytics.">iOS и Android для бизнеса. От MVP до масштабируемого продукта с оплатой и аналитикой.</div>
+      <div class="srv-tags"><span class="srv-tag">React Native</span><span class="srv-tag">Flutter</span><span class="srv-tag">In-App</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- P2P FEATURED -->
+<section id="p2p" style="padding-top:0">
+  <div class="featured reveal">
+    <div>
+      <div class="feat-tag" data-ru="Флагманский продукт" data-en="Flagship product">Флагманский продукт</div>
+      <div class="feat-title" data-ru="P2P платформа<br>с трафиком под ключ" data-en="P2P platform<br>with traffic turnkey">P2P платформа<br>с трафиком под ключ</div>
+      <div class="feat-desc" data-ru="Получите готовую платёжную платформу с реальным трафиком. Система обработки транзакций, кабинет трейдера, антифрод и поддержка 24/7." data-en="Get a ready-made payment platform with real traffic. Transaction processing system, trader cabinet, anti-fraud and 24/7 support.">Получите готовую платёжную платформу с реальным трафиком. Система обработки транзакций, кабинет трейдера, антифрод и поддержка 24/7.</div>
+      <div class="feat-items">
+        <div class="feat-item"><div class="feat-item-icon">💳</div><div class="feat-item-text" data-ru="Кабинет трейдера с терминалами, ордерами и аналитикой" data-en="Trader cabinet with terminals, orders and analytics">Кабинет трейдера с терминалами, ордерами и аналитикой</div></div>
+        <div class="feat-item"><div class="feat-item-icon">🔄</div><div class="feat-item-text" data-ru="Автоматический процессинг платежей UAH / USDT" data-en="Automatic payment processing UAH / USDT">Автоматический процессинг платежей UAH / USDT</div></div>
+        <div class="feat-item"><div class="feat-item-icon">⚖️</div><div class="feat-item-text" data-ru="Система диспутов, апелляций и верификации чеков" data-en="Dispute system, appeals and receipt verification">Система диспутов, апелляций и верификации чеков</div></div>
+        <div class="feat-item"><div class="feat-item-icon">🤝</div><div class="feat-item-text" data-ru="Реферальная программа и управление трафиком" data-en="Referral program and traffic management">Реферальная программа и управление трафиком</div></div>
+        <div class="feat-item"><div class="feat-item-icon">🔒</div><div class="feat-item-text" data-ru="Антифрод система и мониторинг транзакций" data-en="Anti-fraud system and transaction monitoring">Антифрод система и мониторинг транзакций</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="feat-price">
+        <div class="feat-price-title" data-ru="Условия запуска" data-en="Launch terms">Условия запуска</div>
+        <div class="price-row"><span class="price-label">Setup Fee</span><span class="price-val ac">12 000 $</span></div>
+        <div class="price-row"><span class="price-label" data-ru="Комиссия с оборота" data-en="Revenue commission">Комиссия с оборота</span><span class="price-val">0.3 %</span></div>
+        <div class="price-row"><span class="price-label" data-ru="Минимальный оборот" data-en="Minimum turnover">Минимальный оборот</span><span class="price-val">3 000 $ / <span data-ru="мес" data-en="mo">мес</span></span></div>
+        <div class="price-row"><span class="price-label" data-ru="Срок запуска" data-en="Launch time">Срок запуска</span><span class="price-val">14 – 30 <span data-ru="дней" data-en="days">дней</span></span></div>
+        <div class="price-row"><span class="price-label" data-ru="Поддержка" data-en="Support">Поддержка</span><span class="price-val">24 / 7</span></div>
+        <a href="https://t.me/transacto_support" target="_blank" class="feat-cta" data-ru="Получить консультацию" data-en="Get consultation">Получить консультацию</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OCTO -->
+<div class="octo" id="octo">
+  <div class="octo-inner reveal">
+    <div>
+      <div class="octo-badge"><div class="octo-badge-dot"></div><div class="octo-badge-text" data-ru="Технологический партнёр" data-en="Technology partner">Технологический партнёр</div></div>
+      <div class="octo-title" data-ru="OctoPro —<br>лидер финтех-разработки" data-en="OctoPro —<br>fintech development leader">OctoPro —<br>лидер финтех-разработки</div>
+      <div class="octo-desc" data-ru="Ведущий разработчик IT-решений для финтех-сектора с более чем 15-летним опытом. Команда OctoPro специализируется на создании высокопроизводительных, надёжных и безопасных платформ, которые работают под нагрузкой миллионов транзакций." data-en="Leading IT solutions developer for the fintech sector with over 15 years of experience. The OctoPro team specializes in building high-performance, reliable and secure platforms that handle millions of transactions.">Ведущий разработчик IT-решений для финтех-сектора с более чем 15-летним опытом. Команда OctoPro специализируется на создании высокопроизводительных, надёжных и безопасных платформ, которые работают под нагрузкой миллионов транзакций.</div>
+      <div class="octo-stats">
+        <div class="octo-stat"><div class="octo-stat-num">15+</div><div class="octo-stat-label" data-ru="лет в финтех-разработке" data-en="years in fintech">лет в финтех-разработке</div></div>
+        <div class="octo-stat"><div class="octo-stat-num">$1B+</div><div class="octo-stat-label" data-ru="обороты на платформах" data-en="platform turnover">обороты на платформах</div></div>
+        <div class="octo-stat"><div class="octo-stat-num">99.9%</div><div class="octo-stat-label" data-ru="uptime систем" data-en="system uptime">uptime систем</div></div>
+        <div class="octo-stat"><div class="octo-stat-num">10+</div><div class="octo-stat-label" data-ru="специалистов в команде" data-en="specialists in team">специалистов в команде</div></div>
+      </div>
+    </div>
+    <div class="octo-right">
+      <div class="octo-item"><div class="octo-item-icon">🛡️</div><div><div class="octo-item-title" data-ru="Надёжность и безопасность" data-en="Reliability and security">Надёжность и безопасность</div><div class="octo-item-desc" data-ru="Резервирование, шифрование, мониторинг 24/7. Системы проектируются с расчётом на отказоустойчивость." data-en="Redundancy, encryption, 24/7 monitoring. Systems are designed for fault tolerance.">Резервирование, шифрование, мониторинг 24/7. Системы проектируются с расчётом на отказоустойчивость.</div></div></div>
+      <div class="octo-item"><div class="octo-item-icon">⚡</div><div><div class="octo-item-title" data-ru="Высокая нагрузка" data-en="High load">Высокая нагрузка</div><div class="octo-item-desc" data-ru="Архитектура выдерживает миллионы транзакций в день без деградации производительности." data-en="Architecture handles millions of transactions per day without performance degradation.">Архитектура выдерживает миллионы транзакций в день без деградации производительности.</div></div></div>
+      <div class="octo-item"><div class="octo-item-icon">🔧</div><div><div class="octo-item-title" data-ru="Полный цикл" data-en="Full cycle">Полный цикл</div><div class="octo-item-desc" data-ru="От архитектуры и дизайна до деплоя, нагрузочного тестирования и технической поддержки." data-en="From architecture and design to deployment, load testing and technical support.">От архитектуры и дизайна до деплоя, нагрузочного тестирования и технической поддержки.</div></div></div>
+      <div class="octo-item"><div class="octo-item-icon">📊</div><div><div class="octo-item-title" data-ru="Аналитика и мониторинг" data-en="Analytics and monitoring">Аналитика и мониторинг</div><div class="octo-item-desc" data-ru="Встроенные инструменты аналитики, дашборды реального времени и система алертов." data-en="Built-in analytics tools, real-time dashboards and alerting system.">Встроенные инструменты аналитики, дашборды реального времени и система алертов.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<section>
+  <div class="reveal" style="text-align:center">
+    <div class="section-tag" style="display:flex;justify-content:center" data-ru="Как мы работаем" data-en="How we work">Как мы работаем</div>
+    <div class="section-title" style="max-width:440px;margin:0 auto" data-ru="От идеи до <em>запуска</em>" data-en="From idea to <em>launch</em>">От идеи до <em>запуска</em></div>
+  </div>
+  <div class="process-grid reveal">
+    <div class="proc-step"><div class="proc-num">01</div><div class="proc-title" data-ru="Консультация" data-en="Consultation">Консультация</div><div class="proc-desc" data-ru="Обсуждаем задачу и цели. Бесплатно." data-en="We discuss the task and goals. Free.">Обсуждаем задачу и цели. Бесплатно.</div></div>
+    <div class="proc-step"><div class="proc-num">02</div><div class="proc-title" data-ru="ТЗ и оценка" data-en="Spec & estimate">ТЗ и оценка</div><div class="proc-desc" data-ru="Формируем ТЗ, сроки и стоимость." data-en="We form the spec, timeline and cost.">Формируем ТЗ, сроки и стоимость.</div></div>
+    <div class="proc-step"><div class="proc-num">03</div><div class="proc-title" data-ru="Разработка" data-en="Development">Разработка</div><div class="proc-desc" data-ru="Поэтапно с регулярными демонстрациями." data-en="Step by step with regular demos.">Поэтапно с регулярными демонстрациями.</div></div>
+    <div class="proc-step"><div class="proc-num">04</div><div class="proc-title" data-ru="Тестирование" data-en="Testing">Тестирование</div><div class="proc-desc" data-ru="Полный QA и нагрузочное тестирование." data-en="Full QA and load testing.">Полный QA и нагрузочное тестирование.</div></div>
+    <div class="proc-step"><div class="proc-num">05</div><div class="proc-title" data-ru="Запуск и поддержка" data-en="Launch & support">Запуск и поддержка</div><div class="proc-desc" data-ru="Деплой на production и сопровождение 24/7." data-en="Production deployment and 24/7 support.">Деплой на production и сопровождение 24/7.</div></div>
+  </div>
+</section>
+
+<!-- IGAMING -->
+<div class="igaming reveal" id="igaming">
+  <div>
+    <div class="ig-tag">iGaming</div>
+    <div class="ig-title" data-ru="20 лет<br>в игровой индустрии" data-en="20 years<br>in the gaming industry">20 лет<br>в игровой индустрии</div>
+    <div class="ig-desc" data-ru="Мы одними из первых вошли на рынок iGaming и с тех пор не уходили. Знаем отрасль изнутри — от платёжных систем до регуляторных требований." data-en="We were among the first to enter the iGaming market and have never left. We know the industry from the inside — from payment systems to regulatory requirements.">Мы одними из первых вошли на рынок iGaming и с тех пор не уходили. Знаем отрасль изнутри — от платёжных систем до регуляторных требований.</div>
+    <div class="ig-years">
+      <div class="ig-years-num">20+</div>
+      <div class="ig-years-text" data-ru="лет опыта<br>в iGaming" data-en="years of experience<br>in iGaming">лет опыта<br>в iGaming</div>
+    </div>
+  </div>
+  <div class="ig-list">
+    <div class="ig-item" data-ru="Интеграция с игровыми провайдерами (Pragmatic, Evolution, BGaming)" data-en="Integration with game providers (Pragmatic, Evolution, BGaming)">Интеграция с игровыми провайдерами (Pragmatic, Evolution, BGaming)</div>
+    <div class="ig-item" data-ru="Платёжные решения для онлайн-казино и букмекеров" data-en="Payment solutions for online casinos and bookmakers">Платёжные решения для онлайн-казино и букмекеров</div>
+    <div class="ig-item" data-ru="Бэкофисы операторов с аналитикой и CRM" data-en="Operator back-offices with analytics and CRM">Бэкофисы операторов с аналитикой и CRM</div>
+    <div class="ig-item" data-ru="Compliance и KYC/AML системы" data-en="Compliance and KYC/AML systems">Compliance и KYC/AML системы</div>
+    <div class="ig-item" data-ru="Антифрод и система ограничений" data-en="Anti-fraud and restriction systems">Антифрод и система ограничений</div>
+    <div class="ig-item" data-ru="Мобильные приложения для игровых платформ" data-en="Mobile apps for gaming platforms">Мобильные приложения для игровых платформ</div>
+    <div class="ig-item" data-ru="Разработка под лицензии Кюрасао, MGA, UKGC" data-en="Development for Curacao, MGA, UKGC licenses">Разработка под лицензии Кюрасао, MGA, UKGC</div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-glow"></div>
+  <div class="reveal">
+    <h2 data-ru="Готовы начать<br>ваш проект?" data-en="Ready to start<br>your project?">Готовы начать<br>ваш проект?</h2>
+    <p data-ru="Напишите нам — обсудим задачу, оценим сроки и стоимость. Первая консультация бесплатно." data-en="Write to us — we'll discuss the task, estimate timeline and cost. First consultation is free.">Напишите нам — обсудим задачу, оценим сроки и стоимость. Первая консультация бесплатно.</p>
+    <div class="cta-btns">
+      <a href="https://t.me/transacto_support" target="_blank" class="btn-main" data-ru="Написать в Telegram →" data-en="Write on Telegram →">Написать в Telegram →</a>
+      <a onclick="scrollTo('services')" class="btn-sec" data-ru="Смотреть услуги" data-en="View services">Смотреть услуги</a>
+    </div>
+    <div class="cta-contact">
+      <div class="contact-item">
+        <div class="contact-label">Telegram</div>
+        <div class="contact-val">@transacto_support</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label" data-ru="Партнёр" data-en="Partner">Партнёр</div>
+        <div class="contact-val">OctoPro</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label" data-ru="Опыт" data-en="Experience">Опыт</div>
+        <div class="contact-val">20+ <span data-ru="лет" data-en="years">лет</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Transacto <span>×</span> OctoPro</div>
+  <div class="footer-text" data-ru="IT-разработка под ключ · 20+ лет на рынке" data-en="IT development turnkey · 20+ years on market">IT-разработка под ключ · 20+ лет на рынке</div>
+  <div class="footer-text">© 2026</div>
+</footer>
+
+<script>
+// SCROLL
+function scrollTo(id){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+}
+
+// LANG
+let curLang='ru';
+function setLang(lang){
+  curLang=lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.classList.toggle('on',b.textContent.toLowerCase()===lang);
+  });
+  document.querySelectorAll('[data-ru]').forEach(el=>{
+    const txt=el.getAttribute('data-'+lang);
+    if(txt){
+      // if contains HTML tags use innerHTML
+      if(txt.includes('<')){el.innerHTML=txt;}
+      else{el.textContent=txt;}
+    }
+  });
+  // nav link texts
+  document.querySelectorAll('.nav-links a[data-'+lang+']').forEach(a=>{
+    a.textContent=a.getAttribute('data-'+lang);
+  });
+}
+
+// REVEAL
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
